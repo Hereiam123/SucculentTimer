@@ -1,9 +1,11 @@
 package com.example.briandemaio.succulenttimer;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class SucculentAdapter extends BaseAdapter {
@@ -33,8 +35,23 @@ public class SucculentAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        TextView dummyTextView = new TextView(mContext);
-        dummyTextView.setText(String.valueOf(position));
-        return dummyTextView;
+        // 1
+        final Succulent succulent = succulents[position];
+
+        // 2
+        if (convertView == null) {
+            final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+            convertView = layoutInflater.inflate(R.layout.linearlayout_succulent, null);
+        }
+
+        // 3
+        final ImageView imageView = (ImageView)convertView.findViewById(R.id.imageview_succulent_art);
+        final TextView nameTextView = (TextView)convertView.findViewById(R.id.textview_succulent_name);
+
+        // 4
+        imageView.setImageResource(succulent.getImageResource());
+        nameTextView.setText(mContext.getString(succulent.getName()));
+
+        return convertView;
     }
 }
