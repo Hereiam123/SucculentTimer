@@ -1,6 +1,10 @@
 package com.example.briandemaio.succulenttimer;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.net.URI;
 
 public class SucculentAdapter extends BaseAdapter {
 
@@ -53,9 +59,20 @@ public class SucculentAdapter extends BaseAdapter {
         imageView.setOnClickListener(new ImageView.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Uri drawableId = Uri.parse("android.resource://"+mContext.getPackageName()+"/"+imageView.getDrawable().toString());
+
+                Bundle bundle = new Bundle();
+
+                bundle.putString("imageID", String.valueOf(drawableId));
+
+                Fragment nextFragment = new SucculentNameFragment();
+
+                nextFragment.setArguments(bundle);
+
                 android.support.v4.app.FragmentManager manager = ((FragmentActivity)mContext).getSupportFragmentManager();
                 android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
-                transaction.replace(R.id.succulent_choice_placeholder, new SucculentNameFragment());
+                transaction.replace(R.id.succulent_choice_placeholder, nextFragment);
                 transaction.commit();
             }
         });
