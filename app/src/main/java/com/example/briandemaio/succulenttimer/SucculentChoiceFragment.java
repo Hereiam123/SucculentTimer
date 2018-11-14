@@ -2,10 +2,13 @@ package com.example.briandemaio.succulenttimer;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.ImageView;
 
 public class SucculentChoiceFragment extends Fragment {
     @Override
@@ -15,14 +18,14 @@ public class SucculentChoiceFragment extends Fragment {
         View view = inflater.inflate(R.layout.succulent_choice_grid_fragment, container, false);
 
         GridView gridView = (GridView)view.findViewById(R.id.gridview);
-        SucculentAdapter succulentAdapter = new SucculentAdapter( getActivity(), succulents);
+        SucculentAdapter succulentAdapter = new SucculentAdapter(getActivity(), succulents);
         gridView.setAdapter(succulentAdapter);
 
         // Inflate the layout for this fragment
         return view;
     }
 
-private Succulent[] succulents = {
+    private Succulent[] succulents = {
         new Succulent(R.string.cacti, R.drawable.succulent_1),
         new Succulent(R.string.aloe_vera, R.drawable.succulent_2),
         new Succulent(R.string.aloe_vera, R.drawable.succulent_3),

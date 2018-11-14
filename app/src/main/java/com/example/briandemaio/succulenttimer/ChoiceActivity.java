@@ -15,7 +15,7 @@ public class ChoiceActivity extends FragmentActivity {
         setContentView(R.layout.activity_choice);
         android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.your_placeholder, new SucculentChoiceFragment());
+        transaction.replace(R.id.succulent_choice_placeholder, new SucculentChoiceFragment());
         transaction.commit();
     }
 }
