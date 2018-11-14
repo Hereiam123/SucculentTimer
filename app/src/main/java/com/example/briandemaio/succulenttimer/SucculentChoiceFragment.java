@@ -11,11 +11,15 @@ public class SucculentChoiceFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        GridView gridView = (GridView)findViewById(R.id.gridview);
-        SucculentAdapter succulentAdapter = new SucculentAdapter(this, succulents);
+
+        View view = inflater.inflate(R.layout.succulent_choice_grid_fragment, container, false);
+
+        GridView gridView = (GridView)view.findViewById(R.id.gridview);
+        SucculentAdapter succulentAdapter = new SucculentAdapter( getActivity(), succulents);
         gridView.setAdapter(succulentAdapter);
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.activity_choice, container, false);
+        return view;
     }
 
 private Succulent[] succulents = {
