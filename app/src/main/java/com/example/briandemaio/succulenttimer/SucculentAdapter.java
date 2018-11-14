@@ -35,20 +35,17 @@ public class SucculentAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // 1
+
         final Succulent succulent = succulents[position];
 
-        // 2
         if (convertView == null) {
             final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
             convertView = layoutInflater.inflate(R.layout.linearlayout_succulent, null);
         }
 
-        // 3
         final ImageView imageView = (ImageView)convertView.findViewById(R.id.imageview_succulent_art);
         final TextView nameTextView = (TextView)convertView.findViewById(R.id.textview_succulent_name);
-
-        // 4
+        
         imageView.setImageResource(succulent.getImageResource());
         nameTextView.setText(mContext.getString(succulent.getName()));
 
