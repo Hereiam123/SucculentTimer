@@ -1,5 +1,6 @@
 package com.example.briandemaio.succulenttimer;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 
 public class SucculentNameFragment extends Fragment {
 
@@ -22,7 +25,7 @@ public class SucculentNameFragment extends Fragment {
         Bundle bundle = this.getArguments();
 
         if(bundle != null){
-            succulentImageView.setImageDrawable(Drawable.createFromPath(bundle.getString("imageID")));
+            Glide.with(getContext()).load(bundle.getInt("imageID")).into(succulentImageView);
         }
 
         return view;

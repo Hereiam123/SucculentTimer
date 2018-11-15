@@ -55,7 +55,7 @@ public class SucculentAdapter extends BaseAdapter {
         final ImageView imageView = (ImageView)convertView.findViewById(R.id.imageview_succulent_art);
         final TextView nameTextView = (TextView)convertView.findViewById(R.id.textview_succulent_name);
 
-        Glide.with(mContext).load(Succulent.getImageResource()).into(imageView);
+        Glide.with(mContext).load(succulent.getImageResource()).into(imageView);
         nameTextView.setText(mContext.getString(succulent.getName()));
 
         imageView.setOnClickListener(new ImageView.OnClickListener() {
@@ -64,7 +64,7 @@ public class SucculentAdapter extends BaseAdapter {
 
                 Bundle bundle = new Bundle();
 
-                bundle.putString("imageID", );
+                bundle.putInt("imageID", succulent.getImageResource());
 
                 Fragment nextFragment = new SucculentNameFragment();
 

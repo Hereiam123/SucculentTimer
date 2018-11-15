@@ -2,7 +2,7 @@ package com.example.briandemaio.succulenttimer;
 
 public class Succulent {
     private final int name;
-    private static int imageResource;
+    private int imageResource;
 
     public Succulent(int name, int imageResource) {
         this.name = name;
@@ -13,7 +13,7 @@ public class Succulent {
         return name;
     }
 
-    public static int getImageResource() {
+    public int getImageResource() {
         return imageResource;
     }
 
