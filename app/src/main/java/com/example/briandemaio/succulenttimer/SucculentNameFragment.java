@@ -28,6 +28,7 @@ public class SucculentNameFragment extends Fragment {
             Glide.with(getContext()).load(bundle.getInt("imageID")).into(succulentImageView);
         }
 
+
         return view;
     }
 }
