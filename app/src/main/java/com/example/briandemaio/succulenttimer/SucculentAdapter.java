@@ -13,6 +13,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.net.URI;
 
 public class SucculentAdapter extends BaseAdapter {
@@ -53,18 +55,16 @@ public class SucculentAdapter extends BaseAdapter {
         final ImageView imageView = (ImageView)convertView.findViewById(R.id.imageview_succulent_art);
         final TextView nameTextView = (TextView)convertView.findViewById(R.id.textview_succulent_name);
 
-        imageView.setImageResource(succulent.getImageResource());
+        Glide.with(mContext).load(Succulent.getImageResource()).into(imageView);
         nameTextView.setText(mContext.getString(succulent.getName()));
 
         imageView.setOnClickListener(new ImageView.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Uri drawableId = Uri.parse("android.resource://"+mContext.getPackageName()+"/"+imageView.getDrawable().toString());
-
                 Bundle bundle = new Bundle();
 
-                bundle.putString("imageID", String.valueOf(drawableId));
+                bundle.putString("imageID", );
 
                 Fragment nextFragment = new SucculentNameFragment();
 
