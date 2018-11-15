@@ -5,9 +5,13 @@ import android.app.FragmentTransaction;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.EditText;
 import android.widget.GridView;
 
 public class ChoiceActivity extends FragmentActivity {
+
+    public static final String EXTRA_REPLY =
+            "com.example.briandemaio.succulenttimer.REPLY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,3 +23,4 @@ public class ChoiceActivity extends FragmentActivity {
         transaction.commit();
     }
 }
+

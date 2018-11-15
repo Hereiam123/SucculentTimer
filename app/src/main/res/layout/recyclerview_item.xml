@@ -11,14 +11,14 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/imageview_succulent_art"
+            android:id="@+id/recycler_imageview_succulent_art"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:scaleType="centerCrop"/>
     </FrameLayout>
 
     <TextView
-        android:id="@+id/textview_succulent_name"
+        android:id="@+id/recycler_textview_succulent_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12sp"

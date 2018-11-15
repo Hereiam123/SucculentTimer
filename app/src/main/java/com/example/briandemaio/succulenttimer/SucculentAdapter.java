@@ -56,7 +56,7 @@ public class SucculentAdapter extends BaseAdapter {
         final TextView nameTextView = (TextView)convertView.findViewById(R.id.textview_succulent_name);
 
         Glide.with(mContext).load(succulent.getImageResource()).into(imageView);
-        nameTextView.setText(mContext.getString(succulent.getName()));
+        nameTextView.setText(mContext.getString(succulent.getNameId()));
 
         imageView.setOnClickListener(new ImageView.OnClickListener() {
             @Override

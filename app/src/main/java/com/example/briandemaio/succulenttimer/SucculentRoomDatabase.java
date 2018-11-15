@@ -15,7 +15,6 @@ public abstract class SucculentRoomDatabase extends RoomDatabase {
             synchronized (SucculentRoomDatabase.class) {
                 if (INSTANCE == null) {
                     // Create database here
-                    // Create database here
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             SucculentRoomDatabase.class, "succulent_database")
                             .fallbackToDestructiveMigration()
