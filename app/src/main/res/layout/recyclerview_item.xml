@@ -11,25 +11,52 @@
     android:layout_height="wrap_content"
     >
 
+    <FrameLayout
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="8dp"
+        android:layout_margin="8dp"
+        android:scaleType="fitXY">
+        <ImageView
+            android:id="@+id/recycler_imageview_succulent_art"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"/>
+    </FrameLayout>
 
-    <ImageView
-        android:id="@+id/recycler_imageview_succulent_art"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"/>
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        android:gravity="right">
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/recycler_reset_timer"
+            android:src="@drawable/ic_water_drop"
+            />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/recycler_textview_succulent_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"/>
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/recycyler_reset_timer"
-        android:src="@drawable/ic_water_drop"
-        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="8dp"
+        android:gravity="right" >
+        <TextView
+            android:id="@+id/recycler_textview_succulent_timeleft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:id="@+id/recycler_textview_succulent_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
 
 </RelativeLayout>
 
