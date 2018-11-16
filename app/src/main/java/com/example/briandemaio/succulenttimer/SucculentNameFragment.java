@@ -1,8 +1,6 @@
 package com.example.briandemaio.succulenttimer;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -28,8 +26,8 @@ public class SucculentNameFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.succulent_name_fragment, container, false);
-        ImageView succulentImageView = (ImageView)view.findViewById(R.id.succulentImageView);
-        mEditWordView = (EditText)view.findViewById(R.id.editText);
+        ImageView succulentImageView = view.findViewById(R.id.succulentImageView);
+        mEditWordView = view.findViewById(R.id.editText);
         final Bundle bundle = this.getArguments();
 
         if(bundle != null){
@@ -51,7 +49,7 @@ public class SucculentNameFragment extends Fragment {
                 getActivity().finish();
             }
         });
-
+        setRetainInstance(true);
         return view;
     }
 }
