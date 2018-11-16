@@ -2,6 +2,7 @@ package com.example.briandemaio.succulenttimer;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -64,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, NEW_SUCCULENT_ACTIVITY_REQUEST_CODE);
             }
         });
+
+        createNotificationChannel();
+        deliverNotification(MainActivity.this);
     }
 
     @Override
@@ -131,5 +136,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void deliverNotification(Context context) {}
+    private void deliverNotification(Context context) {
+        Intent contentIntent = new Intent(context, MainActivity.class);
+        PendingIntent contentPendingIntent = PendingIntent.getActivity
+                (context, NOTIFICATION_ID, contentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, PRIMARY_CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_water_drop)
+                .setContentTitle("Water me!")
+                .setContentText("You should water a succulent!")
+                .setContentIntent(contentPendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true)
+                .setDefaults(NotificationCompat.DEFAULT_ALL);
+        mNotificationManager.notify(NOTIFICATION_ID, builder.build());
+    }
 }
