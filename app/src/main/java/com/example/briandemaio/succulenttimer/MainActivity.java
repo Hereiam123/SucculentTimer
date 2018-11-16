@@ -93,23 +93,22 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void setSucculentTimeAlarm(){
+        Intent notifyIntent = new Intent(this, AlarmReceiver.class);
+        PendingIntent notifyPendingIntent = PendingIntent.getBroadcast
+                (this, NOTIFICATION_ID, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        long triggerTime = System.currentTimeMillis() + 30 * 1000;
+        alarmManager.set(AlarmManager.RTC_WAKEUP,
+                triggerTime, notifyPendingIntent);
+    }
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == NEW_SUCCULENT_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
             Succulent succulent = new Succulent(data.getStringExtra(EXTRA_REPLY),data.getIntExtra("imageID",0));
             mSucculentViewModel.insert(succulent);
-            
-            Intent notifyIntent = new Intent(this, AlarmReceiver.class);
-            PendingIntent notifyPendingIntent = PendingIntent.getBroadcast
-                    (this, NOTIFICATION_ID, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-            long repeatInterval = AlarmManager.INTERVAL_FIFTEEN_MINUTES;
-            long triggerTime = SystemClock.elapsedRealtime()
-                    + repeatInterval;
-            alarmManager.setInexactRepeating
-                    (AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                            triggerTime, repeatInterval, notifyPendingIntent);
+            setSucculentTimeAlarm();
         } else {
             Toast.makeText(
                     getApplicationContext(),
