@@ -6,16 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
-import android.widget.ImageView;
 
 public class SucculentChoiceFragment extends Fragment {
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.succulent_choice_grid_fragment, container, false);
+        View view = inflater.inflate(R.layout.succulent_choice_fragment, container, false);
 
-        GridView gridView = (GridView)view.findViewById(R.id.gridview);
+        GridView gridView = (GridView)view.findViewById(R.id.succulent_grid_view);
         SucculentAdapter succulentAdapter = new SucculentAdapter(getActivity(), succulents);
         gridView.setAdapter(succulentAdapter);
 

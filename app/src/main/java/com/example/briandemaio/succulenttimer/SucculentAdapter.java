@@ -1,8 +1,6 @@
 package com.example.briandemaio.succulenttimer;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -14,8 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-
-import java.net.URI;
 
 public class SucculentAdapter extends BaseAdapter {
 
@@ -49,11 +45,11 @@ public class SucculentAdapter extends BaseAdapter {
 
         if (convertView == null) {
             final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-            convertView = layoutInflater.inflate(R.layout.linearlayout_succulent, null);
+            convertView = layoutInflater.inflate(R.layout.choice_view_item, null);
         }
 
-        final ImageView imageView = (ImageView)convertView.findViewById(R.id.imageview_succulent_art);
-        final TextView nameTextView = (TextView)convertView.findViewById(R.id.textview_succulent_name);
+        final ImageView imageView = (ImageView)convertView.findViewById(R.id.succulent_image);
+        final TextView nameTextView = (TextView)convertView.findViewById(R.id.succulent_name_text);
 
         Glide.with(mContext).load(succulent.getImageResource()).into(imageView);
         nameTextView.setText(mContext.getString(succulent.getNameId()));

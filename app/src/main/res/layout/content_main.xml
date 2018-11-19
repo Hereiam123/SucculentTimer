@@ -9,11 +9,11 @@
     tools:showIn="@layout/activity_main">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview"
+        android:id="@+id/main_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="8dp"
-        tools:listitem="@layout/recyclerview_item"
+        tools:listitem="@layout/added_view_item"
         />
 
 </android.support.constraint.ConstraintLayout>

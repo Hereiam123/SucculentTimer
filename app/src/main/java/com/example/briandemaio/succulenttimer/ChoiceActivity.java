@@ -17,6 +17,7 @@ public class ChoiceActivity extends AppCompatActivity {
         android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
 
         mNameFragment = (SucculentNameFragment) manager.findFragmentById(R.id.succulent_choice_placeholder);
+
         // If the Fragment is non-null, then it is currently being
         // retained across a configuration change.
         if (mNameFragment == null) {
