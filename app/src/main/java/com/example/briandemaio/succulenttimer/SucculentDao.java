@@ -2,6 +2,7 @@ package com.example.briandemaio.succulenttimer;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
@@ -15,6 +16,9 @@ public interface SucculentDao {
 
     @Query("DELETE FROM succulent_table")
     void deleteAll();
+
+    @Delete
+    void deleteSucculent(Succulent succulent);
 
     @Query("SELECT * from succulent_table ORDER BY succulent ASC")
     LiveData<List<Succulent>> getAllSucculents();

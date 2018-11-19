@@ -15,11 +15,10 @@ public class SucculentChoiceFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.succulent_choice_fragment, container, false);
 
-        GridView gridView = (GridView)view.findViewById(R.id.succulent_grid_view);
+        GridView gridView = view.findViewById(R.id.succulent_grid_view);
         SucculentAdapter succulentAdapter = new SucculentAdapter(getActivity(), succulents);
         gridView.setAdapter(succulentAdapter);
 
-        // Inflate the layout for this fragment
         return view;
     }
 

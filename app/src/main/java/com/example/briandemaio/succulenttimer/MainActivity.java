@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -53,6 +54,33 @@ public class MainActivity extends AppCompatActivity {
                 adapter.setSucculents(succulents);
             }
         });
+
+        // Add the functionality to swipe items in the
+        // recycler view to delete that item
+        ItemTouchHelper helper = new ItemTouchHelper(
+        new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView,
+                                  RecyclerView.ViewHolder viewHolder,
+                                  RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder,
+                                 int direction) {
+                int position = viewHolder.getAdapterPosition();
+                Succulent mySucculent = adapter.getSucculentAtPosition(position);
+                Toast.makeText(MainActivity.this, "Deleting " +
+                        mySucculent.getName(), Toast.LENGTH_LONG).show();
+
+                // Delete the word
+                mSucculentViewModel.delete(mySucculent);
+            }
+        });
+
+        helper.attachToRecyclerView(recyclerView);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

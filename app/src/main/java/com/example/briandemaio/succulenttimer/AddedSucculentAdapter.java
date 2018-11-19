@@ -17,7 +17,7 @@ public class AddedSucculentAdapter extends RecyclerView.Adapter<AddedSucculentAd
     private final Context mContext;
 
     private final LayoutInflater mInflater;
-    private List<Succulent> mSucculents; // Cached copy of words
+    private List<Succulent> mSucculents;
 
     AddedSucculentAdapter(Context context) {
         this.mContext = context;
@@ -41,13 +41,15 @@ public class AddedSucculentAdapter extends RecyclerView.Adapter<AddedSucculentAd
         }
     }
 
+    public Succulent getSucculentAtPosition (int position) {
+        return mSucculents.get(position);
+    }
+
     void setSucculents(List<Succulent> succulents){
         mSucculents = succulents;
         notifyDataSetChanged();
     }
 
-    // getItemCount() is called many times, and when it is first called,
-    // mWords has not been updated (means initially, it's null, and we can't return null).
     @Override
     public int getItemCount() {
         if (mSucculents != null)

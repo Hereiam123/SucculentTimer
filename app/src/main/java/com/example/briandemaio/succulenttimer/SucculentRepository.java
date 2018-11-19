@@ -24,6 +24,10 @@ public class SucculentRepository {
         new insertAsyncTask(mSucculentDao).execute(succulent);
     }
 
+    public void delete(Succulent succulent)  {
+        new deleteAsyncTask(mSucculentDao).execute(succulent);
+    }
+
     private static class insertAsyncTask extends AsyncTask<Succulent, Void, Void> {
 
         private SucculentDao mAsyncTaskDao;
@@ -35,6 +39,20 @@ public class SucculentRepository {
         @Override
         protected Void doInBackground(final Succulent... params) {
             mAsyncTaskDao.insert(params[0]);
+            return null;
+        }
+    }
+
+    private static class deleteAsyncTask extends AsyncTask<Succulent, Void, Void> {
+        private SucculentDao mAsyncTaskDao;
+
+        deleteAsyncTask(SucculentDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final Succulent... params) {
+            mAsyncTaskDao.deleteSucculent(params[0]);
             return null;
         }
     }

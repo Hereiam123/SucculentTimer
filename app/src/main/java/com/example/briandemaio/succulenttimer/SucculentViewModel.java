@@ -20,4 +20,6 @@ public class SucculentViewModel extends AndroidViewModel {
     LiveData<List<Succulent>> getAllSucculents() { return mAllSucculents; }
 
     public void insert(Succulent succulent) { mRepository.insert(succulent); }
+
+    public void delete(Succulent succulent) { mRepository.delete(succulent); }
 }
