@@ -20,10 +20,7 @@ public class Succulent {
     private int imageResource;
     private int nameId;
     private int timeId;
-
-    public void setNameId(int nameId) {
-        this.nameId=nameId;
-    }
+    private long expiryTime;
 
     public Succulent(@NonNull String name, @NonNull int imageResource) {
         this.name = name;
@@ -42,10 +39,15 @@ public class Succulent {
         this.imageResource = imageResource;
     }
 
+    public int getId(){return id;}
 
     public void setId(int id) {
         this.id = id;
     }
+
+    public void setExpiryTime(long expiryTime){this.expiryTime = expiryTime;}
+
+    public long getExpiryTime(){return expiryTime;}
 
     public int getTimeId(){return timeId;}
 
@@ -53,10 +55,12 @@ public class Succulent {
         this.timeId = timeId;
     }
 
-    public int getId(){return id;}
-
     public String getName() {
         return name;
+    }
+
+    public void setNameId(int nameId) {
+        this.nameId=nameId;
     }
 
     public int getNameId() {

@@ -121,7 +121,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void setSucculentTimeAlarm(Succulent succulent) {
         Intent notifyIntent = new Intent(this, AlarmReceiver.class);
-        long triggerTime = System.currentTimeMillis() + 30 * 200;
+        long triggerTime = System.currentTimeMillis() + 30 * 1000;
+        succulent.setExpiryTime(triggerTime);
         notifyIntent.putExtra(AlarmReceiver.NOTIFICATION_ID, (int) triggerTime);
         notifyIntent.putExtra(AlarmReceiver.NOTIFICATION, succulent.getName());
         succulent.setTimeId((int) triggerTime);

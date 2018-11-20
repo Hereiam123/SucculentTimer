@@ -25,6 +25,7 @@ public class AddedSucculentAdapter extends RecyclerView.Adapter<AddedSucculentAd
     private final LayoutInflater mInflater;
     private List<Succulent> mSucculents;
 
+
     AddedSucculentAdapter(Context context) {
         this.mContext = context;
         mInflater = LayoutInflater.from(context); }
@@ -38,23 +39,19 @@ public class AddedSucculentAdapter extends RecyclerView.Adapter<AddedSucculentAd
     @Override
     public void onBindViewHolder(final SucculentViewHolder holder, int position) {
         if (mSucculents != null) {
+
             final Succulent current = mSucculents.get(position);
             holder.succulentItemView.setText(current.getName());
-            new CountDownTimer(10000, 1000) {
-                public void onTick(long millisUntilFinished) {
-                    holder.succulentCountdownView.setText("seconds remaining: " + millisUntilFinished / 1000);
-                }
 
-                public void onFinish() {
-                    holder.succulentCountdownView.setText("Done");
-                }
-            }.start();
+            updateCountdown(holder, current);
+
             holder.succulentResetView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent notifyIntent = new Intent(mContext, AlarmReceiver.class);
-                    long triggerTime = System.currentTimeMillis() + 30 * 200;
+                    long triggerTime = System.currentTimeMillis() + 30 * 1000;
                     int previousId = current.getTimeId();
+
                     notifyIntent.putExtra(AlarmReceiver.NOTIFICATION_ID, previousId);
                     notifyIntent.putExtra(AlarmReceiver.NOTIFICATION, current.getName());
                     PendingIntent notifyPendingIntent = PendingIntent.getBroadcast
@@ -62,8 +59,12 @@ public class AddedSucculentAdapter extends RecyclerView.Adapter<AddedSucculentAd
                     AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
                     alarmManager.set(AlarmManager.RTC_WAKEUP,
                             triggerTime, notifyPendingIntent);
+
+                    current.setExpiryTime(triggerTime);
+                    updateCountdown(holder, current);
                 }
             });
+
             Glide.with(mContext).load(current.getImageResource()).into(holder.succulentImageView);
         } else {
             // Covers the case of data not being ready yet.
@@ -80,6 +81,22 @@ public class AddedSucculentAdapter extends RecyclerView.Adapter<AddedSucculentAd
         notifyDataSetChanged();
     }
 
+    private void updateCountdown(final SucculentViewHolder holder, Succulent current){
+        if (holder.succulentCountdownTimer != null) {
+            holder.succulentCountdownTimer.cancel();
+        }
+
+        holder.succulentCountdownTimer = new CountDownTimer(current.getExpiryTime()- System.currentTimeMillis(), 1000) {
+            public void onTick(long millisUntilFinished) {
+                holder.succulentCountdownView.setText("" + millisUntilFinished/1000 + " Sec ");
+            }
+
+            public void onFinish() {
+                holder.succulentCountdownView.setText("00:00:00");
+            }
+        }.start();
+    }
+
     @Override
     public int getItemCount() {
         if (mSucculents != null)
@@ -92,6 +109,7 @@ public class AddedSucculentAdapter extends RecyclerView.Adapter<AddedSucculentAd
         private final ImageView succulentImageView;
         private final ImageButton succulentResetView;
         private final TextView succulentCountdownView;
+        private CountDownTimer succulentCountdownTimer;
 
         private SucculentViewHolder(View itemView) {
             super(itemView);
