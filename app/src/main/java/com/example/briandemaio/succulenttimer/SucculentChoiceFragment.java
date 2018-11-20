@@ -14,8 +14,8 @@ public class SucculentChoiceFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.succulent_choice_fragment, container, false);
         GridView gridView = view.findViewById(R.id.succulent_grid_view);
-        SucculentAdapter succulentAdapter = new SucculentAdapter(getActivity(), succulents);
-        gridView.setAdapter(succulentAdapter);
+        SucculentChoiceAdapter succulentChoiceAdapter = new SucculentChoiceAdapter(getActivity(), succulents);
+        gridView.setAdapter(succulentChoiceAdapter);
         return view;
     }
 

@@ -29,8 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     private SucculentViewModel mSucculentViewModel;
     public static final int NEW_SUCCULENT_ACTIVITY_REQUEST_CODE = 1;
-    // Notification ID.
-    private static final int NOTIFICATION_ID = 0;
+
     // Notification channel ID.
     private static final String PRIMARY_CHANNEL_ID =
             "primary_notification_channel";
@@ -116,12 +115,14 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void setSucculentTimeAlarm(){
+    public void setSucculentTimeAlarm(String name){
         Intent notifyIntent = new Intent(this, AlarmReceiver.class);
+        long triggerTime = System.currentTimeMillis() + 30 * 300;
+        notifyIntent.putExtra(AlarmReceiver.NOTIFICATION_ID, (int) triggerTime);
+        notifyIntent.putExtra(AlarmReceiver.NOTIFICATION, name);
         PendingIntent notifyPendingIntent = PendingIntent.getBroadcast
-                (this, NOTIFICATION_ID, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                (this, (int) triggerTime, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        long triggerTime = System.currentTimeMillis() + 30 * 1000;
         alarmManager.set(AlarmManager.RTC_WAKEUP,
                 triggerTime, notifyPendingIntent);
     }
@@ -131,7 +132,8 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == NEW_SUCCULENT_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
             Succulent succulent = new Succulent(data.getStringExtra(EXTRA_REPLY),data.getIntExtra("imageID",0));
             mSucculentViewModel.insert(succulent);
-            setSucculentTimeAlarm();
+            String name = succulent.getName();
+            setSucculentTimeAlarm(name);
         } else {
             Toast.makeText(
                     getApplicationContext(),

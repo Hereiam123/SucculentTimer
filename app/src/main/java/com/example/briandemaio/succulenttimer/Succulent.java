@@ -10,7 +10,9 @@ import android.support.annotation.NonNull;
 @Entity(tableName = "succulent_table")
 public class Succulent {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+
     @NonNull
     @ColumnInfo(name = "succulent")
     private String name;
@@ -28,10 +30,23 @@ public class Succulent {
     }
 
     @Ignore
+    public Succulent(int id, @NonNull String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    @Ignore
     public Succulent(int nameId, int imageResource) {
         this.nameId = nameId;
         this.imageResource = imageResource;
     }
+
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId(){return id;}
 
     public String getName() {
         return name;

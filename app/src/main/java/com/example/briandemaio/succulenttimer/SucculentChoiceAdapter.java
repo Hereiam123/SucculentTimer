@@ -13,12 +13,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-public class SucculentAdapter extends BaseAdapter {
+public class SucculentChoiceAdapter extends BaseAdapter {
 
     private final Context mContext;
     private final Succulent[] succulents;
 
-    public SucculentAdapter(Context context, Succulent[] succulents){
+    public SucculentChoiceAdapter(Context context, Succulent[] succulents){
         this.mContext = context;
         this.succulents = succulents;
     }
