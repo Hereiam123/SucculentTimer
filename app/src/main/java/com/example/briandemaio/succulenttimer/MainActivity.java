@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -57,27 +58,30 @@ public class MainActivity extends AppCompatActivity {
         // Add the functionality to swipe items in the
         // recycler view to delete that item
         ItemTouchHelper helper = new ItemTouchHelper(
-        new ItemTouchHelper.SimpleCallback(0,
-                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(RecyclerView recyclerView,
-                                  RecyclerView.ViewHolder viewHolder,
-                                  RecyclerView.ViewHolder target) {
-                return false;
-            }
+                new ItemTouchHelper.SimpleCallback(0,
+                        ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                    @Override
+                    public boolean onMove(RecyclerView recyclerView,
+                                          RecyclerView.ViewHolder viewHolder,
+                                          RecyclerView.ViewHolder target) {
+                        return false;
+                    }
 
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder,
-                                 int direction) {
-                int position = viewHolder.getAdapterPosition();
-                Succulent mySucculent = adapter.getSucculentAtPosition(position);
-                Toast.makeText(MainActivity.this, "Deleting " +
-                        mySucculent.getName(), Toast.LENGTH_LONG).show();
+                    @Override
+                    public void onSwiped(RecyclerView.ViewHolder viewHolder,
+                                         int direction) {
+                        int position = viewHolder.getAdapterPosition();
+                        Succulent mySucculent = adapter.getSucculentAtPosition(position);
+                        Toast.makeText(MainActivity.this, "Deleting " +
+                                mySucculent.getName(), Toast.LENGTH_LONG).show();
 
-                // Delete the word
-                mSucculentViewModel.delete(mySucculent);
-            }
-        });
+                        // Delete the succulent
+                        mSucculentViewModel.delete(mySucculent);
+
+                        //Delete Alarm
+                        cancelSucculentTimeAlarm(mySucculent);
+                    }
+                });
 
         helper.attachToRecyclerView(recyclerView);
 
@@ -115,11 +119,12 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void setSucculentTimeAlarm(String name){
+    public void setSucculentTimeAlarm(Succulent succulent) {
         Intent notifyIntent = new Intent(this, AlarmReceiver.class);
-        long triggerTime = System.currentTimeMillis() + 30 * 300;
+        long triggerTime = System.currentTimeMillis() + 30 * 200;
         notifyIntent.putExtra(AlarmReceiver.NOTIFICATION_ID, (int) triggerTime);
-        notifyIntent.putExtra(AlarmReceiver.NOTIFICATION, name);
+        notifyIntent.putExtra(AlarmReceiver.NOTIFICATION, succulent.getName());
+        succulent.setTimeId((int) triggerTime);
         PendingIntent notifyPendingIntent = PendingIntent.getBroadcast
                 (this, (int) triggerTime, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -127,13 +132,22 @@ public class MainActivity extends AppCompatActivity {
                 triggerTime, notifyPendingIntent);
     }
 
+    public void cancelSucculentTimeAlarm(Succulent succulent) {
+        Intent notifyIntent = new Intent(this, AlarmReceiver.class);
+        notifyIntent.putExtra(AlarmReceiver.NOTIFICATION_ID, succulent.getTimeId());
+        PendingIntent cancelPendingIntent= PendingIntent.getBroadcast
+                (this, succulent.getTimeId(), notifyIntent, 0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        cancelPendingIntent.cancel();
+        alarmManager.cancel(cancelPendingIntent);
+    }
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == NEW_SUCCULENT_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            Succulent succulent = new Succulent(data.getStringExtra(EXTRA_REPLY),data.getIntExtra("imageID",0));
+            Succulent succulent = new Succulent(data.getStringExtra(EXTRA_REPLY), data.getIntExtra("imageID", 0));
             mSucculentViewModel.insert(succulent);
-            String name = succulent.getName();
-            setSucculentTimeAlarm(name);
+            setSucculentTimeAlarm(succulent);
         } else {
             Toast.makeText(
                     getApplicationContext(),

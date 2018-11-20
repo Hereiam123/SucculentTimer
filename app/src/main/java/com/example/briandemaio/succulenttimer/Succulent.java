@@ -19,6 +19,7 @@ public class Succulent {
 
     private int imageResource;
     private int nameId;
+    private int timeId;
 
     public void setNameId(int nameId) {
         this.nameId=nameId;
@@ -44,6 +45,12 @@ public class Succulent {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getTimeId(){return timeId;}
+
+    public void setTimeId(int timeId) {
+        this.timeId = timeId;
     }
 
     public int getId(){return id;}
