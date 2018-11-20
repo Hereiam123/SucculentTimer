@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.CountDownTimer;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class AddedSucculentAdapter extends RecyclerView.Adapter<AddedSucculentAdapter.SucculentViewHolder> {
@@ -34,10 +36,19 @@ public class AddedSucculentAdapter extends RecyclerView.Adapter<AddedSucculentAd
     }
 
     @Override
-    public void onBindViewHolder(SucculentViewHolder holder, int position) {
+    public void onBindViewHolder(final SucculentViewHolder holder, int position) {
         if (mSucculents != null) {
             final Succulent current = mSucculents.get(position);
             holder.succulentItemView.setText(current.getName());
+            new CountDownTimer(10000, 1000) {
+                public void onTick(long millisUntilFinished) {
+                    holder.succulentCountdownView.setText("seconds remaining: " + millisUntilFinished / 1000);
+                }
+
+                public void onFinish() {
+                    holder.succulentCountdownView.setText("Done");
+                }
+            }.start();
             holder.succulentResetView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -80,12 +91,14 @@ public class AddedSucculentAdapter extends RecyclerView.Adapter<AddedSucculentAd
         private final TextView succulentItemView;
         private final ImageView succulentImageView;
         private final ImageButton succulentResetView;
+        private final TextView succulentCountdownView;
 
         private SucculentViewHolder(View itemView) {
             super(itemView);
             succulentItemView = itemView.findViewById(R.id.recycler_textview_succulent_name);
             succulentImageView = itemView.findViewById(R.id.recycler_imageview_succulent_art);
             succulentResetView = itemView.findViewById(R.id.recycler_reset_timer);
+            succulentCountdownView = itemView.findViewById(R.id.recycler_textview_succulent_timeleft);
         }
     }
 }
