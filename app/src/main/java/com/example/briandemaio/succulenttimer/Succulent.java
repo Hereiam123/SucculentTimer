@@ -19,12 +19,18 @@ public class Succulent {
 
     private int imageResource;
     private int nameId;
+
+    @ColumnInfo(name = "timeId")
     private int timeId;
+
+    @ColumnInfo(name = "expiryTime")
     private long expiryTime;
 
-    public Succulent(@NonNull String name, @NonNull int imageResource) {
+    public Succulent(@NonNull String name, @NonNull int imageResource, @NonNull long expiryTime) {
         this.name = name;
         this.imageResource = imageResource;
+        this.expiryTime = expiryTime;
+        this.timeId = (int) expiryTime;
     }
 
     @Ignore

@@ -23,4 +23,6 @@ public class SucculentViewModel extends AndroidViewModel {
     public void insert(Succulent succulent) { mRepository.insert(succulent); }
 
     public void delete(Succulent succulent) { mRepository.delete(succulent); }
+
+    public void update(Succulent succulent) { mRepository.update(succulent); }
 }

@@ -10,9 +10,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -42,10 +44,13 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        int gridColumnCount =
+                getResources().getInteger(R.integer.grid_column_count);
+
         RecyclerView recyclerView = findViewById(R.id.main_view);
         final AddedSucculentAdapter adapter = new AddedSucculentAdapter(this);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, gridColumnCount));
         mSucculentViewModel = ViewModelProviders.of(this).get(SucculentViewModel.class);
         mSucculentViewModel.getAllSucculents().observe(this, new Observer<List<Succulent>>() {
             @Override
@@ -91,6 +96,19 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, ChoiceActivity.class);
                 startActivityForResult(intent, NEW_SUCCULENT_ACTIVITY_REQUEST_CODE);
+
+            }
+        });
+
+        adapter.setOnItemClickListener(new AddedSucculentAdapter.ClickListener()  {
+
+            @Override
+            public void onItemClick(View v, int position) {
+                Succulent succulent = adapter.getSucculentAtPosition(position);
+                long expiryTime = System.currentTimeMillis() + 30 * 300;
+                succulent.setExpiryTime(expiryTime);
+                mSucculentViewModel.update(succulent);
+                setSucculentTimeAlarm(succulent);
             }
         });
 
@@ -121,17 +139,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void setSucculentTimeAlarm(Succulent succulent) {
         Intent notifyIntent = new Intent(this, AlarmReceiver.class);
-        long triggerTime = System.currentTimeMillis() + 30 * 1000;
-        succulent.setExpiryTime(triggerTime);
-        notifyIntent.putExtra(AlarmReceiver.NOTIFICATION_ID, (int) triggerTime);
+        notifyIntent.putExtra(AlarmReceiver.NOTIFICATION_ID, succulent.getTimeId());
         notifyIntent.putExtra(AlarmReceiver.NOTIFICATION, succulent.getName());
-        succulent.setTimeId((int) triggerTime);
         PendingIntent notifyPendingIntent = PendingIntent.getBroadcast
-                (this, (int) triggerTime, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                (this, succulent.getTimeId(), notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP,
-                triggerTime, notifyPendingIntent);
-        succulent.setExpiryTime(triggerTime);
+                succulent.getExpiryTime(), notifyPendingIntent);
     }
 
     public void cancelSucculentTimeAlarm(Succulent succulent) {
@@ -147,7 +161,8 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == NEW_SUCCULENT_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            Succulent succulent = new Succulent(data.getStringExtra(EXTRA_REPLY), data.getIntExtra("imageID", 0));
+            long triggerTime = System.currentTimeMillis() + 30 * 300;
+            Succulent succulent = new Succulent(data.getStringExtra(EXTRA_REPLY), data.getIntExtra("imageID", 0), triggerTime);
             mSucculentViewModel.insert(succulent);
             setSucculentTimeAlarm(succulent);
         } else {
