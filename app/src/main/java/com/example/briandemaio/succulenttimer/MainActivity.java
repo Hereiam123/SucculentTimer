@@ -131,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP,
                 triggerTime, notifyPendingIntent);
+        succulent.setExpiryTime(triggerTime);
     }
 
     public void cancelSucculentTimeAlarm(Succulent succulent) {

@@ -43,7 +43,7 @@ public class AddedSucculentAdapter extends RecyclerView.Adapter<AddedSucculentAd
             final Succulent current = mSucculents.get(position);
             holder.succulentItemView.setText(current.getName());
 
-            updateCountdown(holder, current);
+            updateCountdown(holder, current.getExpiryTime());
 
             holder.succulentResetView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -51,7 +51,6 @@ public class AddedSucculentAdapter extends RecyclerView.Adapter<AddedSucculentAd
                     Intent notifyIntent = new Intent(mContext, AlarmReceiver.class);
                     long triggerTime = System.currentTimeMillis() + 30 * 1000;
                     int previousId = current.getTimeId();
-
                     notifyIntent.putExtra(AlarmReceiver.NOTIFICATION_ID, previousId);
                     notifyIntent.putExtra(AlarmReceiver.NOTIFICATION, current.getName());
                     PendingIntent notifyPendingIntent = PendingIntent.getBroadcast
@@ -59,9 +58,8 @@ public class AddedSucculentAdapter extends RecyclerView.Adapter<AddedSucculentAd
                     AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
                     alarmManager.set(AlarmManager.RTC_WAKEUP,
                             triggerTime, notifyPendingIntent);
-
                     current.setExpiryTime(triggerTime);
-                    updateCountdown(holder, current);
+                    updateCountdown(holder, current.getExpiryTime());
                 }
             });
 
@@ -81,20 +79,28 @@ public class AddedSucculentAdapter extends RecyclerView.Adapter<AddedSucculentAd
         notifyDataSetChanged();
     }
 
-    private void updateCountdown(final SucculentViewHolder holder, Succulent current){
+    private void updateCountdown(final SucculentViewHolder holder, long expiryTime){
         if (holder.succulentCountdownTimer != null) {
             holder.succulentCountdownTimer.cancel();
         }
 
-        holder.succulentCountdownTimer = new CountDownTimer(current.getExpiryTime()- System.currentTimeMillis(), 1000) {
-            public void onTick(long millisUntilFinished) {
-                holder.succulentCountdownView.setText("" + millisUntilFinished/1000 + " Sec ");
-            }
+        long time = expiryTime;
+        time = time - System.currentTimeMillis();
 
-            public void onFinish() {
-                holder.succulentCountdownView.setText("00:00:00");
-            }
-        }.start();
+        if(time>0) {
+            holder.succulentCountdownTimer = new CountDownTimer(time, 1000) {
+                public void onTick(long millisUntilFinished) {
+                    holder.succulentCountdownView.setText("" + millisUntilFinished / 1000 + " Sec ");
+                }
+
+                public void onFinish() {
+                    holder.succulentCountdownView.setText("00:00:00");
+                }
+            }.start();
+        }
+        else {
+            holder.succulentCountdownView.setText("00:00:00");
+        }
     }
 
     @Override
