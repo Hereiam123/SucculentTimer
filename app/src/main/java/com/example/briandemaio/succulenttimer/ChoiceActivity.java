@@ -9,27 +9,30 @@ public class ChoiceActivity extends AppCompatActivity {
     public static final String EXTRA_REPLY =
             "com.example.briandemaio.succulenttimer.REPLY";
 
-    Fragment mNameFragment;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choice);
         android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
 
-        mNameFragment = manager.findFragmentById(R.id.succulent_choice_placeholder);
-
         if (getResources().getBoolean(R.bool.twoPaneMode)) {
             // all good, we use the fragments defined in the layout
             return;
         }
 
-        // If the Fragment is non-null, then it is currently being
-        // retained across a configuration change.
-        if (mNameFragment == null) {
-            android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
-            transaction.replace(R.id.succulent_choice_placeholder, new SucculentChoiceFragment());
-            transaction.commit();
+        if(savedInstanceState != null){
+            // cleanup any existing fragments in case we are in detailed mode
+            manager.executePendingTransactions();
+            Fragment fragmentById = manager.
+                    findFragmentById(R.id.succulent_choice_placeholder);
+            if (fragmentById != null) {
+                manager.beginTransaction().remove(fragmentById).commit();
+            }
+        }
+
+        SucculentChoiceFragment choiceFragment = new SucculentChoiceFragment();
+        manager.beginTransaction()
+                .replace(R.id.succulent_choice_placeholder, choiceFragment).commit();
         }
     }
 }

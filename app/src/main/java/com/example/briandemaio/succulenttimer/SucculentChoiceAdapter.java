@@ -58,7 +58,7 @@ public class SucculentChoiceAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                Bundle bundle = new Bundle();
+                /*Bundle bundle = new Bundle();
 
                 bundle.putInt("imageID", succulent.getImageResource());
 
@@ -69,7 +69,7 @@ public class SucculentChoiceAdapter extends BaseAdapter {
                 android.support.v4.app.FragmentManager manager = ((FragmentActivity)mContext).getSupportFragmentManager();
                 android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
                 transaction.replace(R.id.succulent_choice_placeholder, nextFragment);
-                transaction.commit();
+                transaction.commit();*/
             }
         });
 
