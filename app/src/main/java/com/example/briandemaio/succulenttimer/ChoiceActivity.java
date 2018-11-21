@@ -19,6 +19,11 @@ public class ChoiceActivity extends AppCompatActivity {
 
         mNameFragment = manager.findFragmentById(R.id.succulent_choice_placeholder);
 
+        if (getResources().getBoolean(R.bool.twoPaneMode)) {
+            // all good, we use the fragments defined in the layout
+            return;
+        }
+
         // If the Fragment is non-null, then it is currently being
         // retained across a configuration change.
         if (mNameFragment == null) {
