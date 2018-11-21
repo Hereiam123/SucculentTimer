@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -95,6 +96,19 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, ChoiceActivity.class);
                 startActivityForResult(intent, NEW_SUCCULENT_ACTIVITY_REQUEST_CODE);
+
+            }
+        });
+
+        adapter.setOnItemClickListener(new AddedSucculentAdapter.ClickListener()  {
+
+            @Override
+            public void onItemClick(View v, int position) {
+                Succulent succulent = adapter.getSucculentAtPosition(position);
+                long expiryTime = System.currentTimeMillis() + 30 * 300;
+                succulent.setExpiryTime(expiryTime);
+                mSucculentViewModel.update(succulent);
+                setSucculentTimeAlarm(succulent);
             }
         });
 
@@ -147,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == NEW_SUCCULENT_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            long triggerTime = System.currentTimeMillis() + 30 * 1000;
+            long triggerTime = System.currentTimeMillis() + 30 * 300;
             Succulent succulent = new Succulent(data.getStringExtra(EXTRA_REPLY), data.getIntExtra("imageID", 0), triggerTime);
             mSucculentViewModel.insert(succulent);
             setSucculentTimeAlarm(succulent);

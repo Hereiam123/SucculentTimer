@@ -24,6 +24,7 @@ public class AddedSucculentAdapter extends RecyclerView.Adapter<AddedSucculentAd
 
     private final LayoutInflater mInflater;
     private List<Succulent> mSucculents;
+    private static ClickListener clickListener;
 
 
     AddedSucculentAdapter(Context context) {
@@ -33,26 +34,7 @@ public class AddedSucculentAdapter extends RecyclerView.Adapter<AddedSucculentAd
     @Override
     public SucculentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = mInflater.inflate(R.layout.added_view_item, parent, false);
-        return new SucculentViewHolder(itemView, new ResetViewClick() {
-                public void updateCountdown(final SucculentViewHolder holder, Succulent current){
-                    if (holder.succulentCountdownTimer != null) {
-                        holder.succulentCountdownTimer.cancel();
-                    }
-
-                    long timeLeft = current.getExpiryTime() - System.currentTimeMillis();
-
-                    holder.succulentCountdownTimer = new CountDownTimer(timeLeft, 1000) {
-                        public void onTick(long millisUntilFinished) {
-                            holder.succulentCountdownView.setText("" + millisUntilFinished / 1000 + " Sec ");
-                        }
-
-                        public void onFinish() {
-                            holder.succulentCountdownView.setText("Water me! ");
-                        }
-                    }.start();
-                }
-            }
-        );
+        return new SucculentViewHolder(itemView);
     }
 
     @Override
@@ -60,6 +42,21 @@ public class AddedSucculentAdapter extends RecyclerView.Adapter<AddedSucculentAd
         if (mSucculents != null) {
             final Succulent current = mSucculents.get(position);
             holder.succulentItemView.setText(current.getName());
+            if(holder.succulentTimer != null){
+                holder.succulentTimer.cancel();
+            }
+
+            holder.succulentTimer = new CountDownTimer(current.getExpiryTime()-System.currentTimeMillis(), 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    holder.succulentTimerView.setText(" " + (int) (millisUntilFinished/1000) % (60) +" seconds left ");
+                }
+
+                @Override
+                public void onFinish() {
+                    holder.succulentTimerView.setText("All Done");
+                }
+            }.start();
             Glide.with(mContext).load(current.getImageResource()).into(holder.succulentImageView);
         } else {
             // Covers the case of data not being ready yet.
@@ -83,37 +80,33 @@ public class AddedSucculentAdapter extends RecyclerView.Adapter<AddedSucculentAd
         else return 0;
     }
 
-    class SucculentViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class SucculentViewHolder extends RecyclerView.ViewHolder{
         private final TextView succulentItemView;
         private final ImageView succulentImageView;
         private final ImageButton succulentResetView;
-        private final TextView succulentCountdownView;
-        private CountDownTimer succulentCountdownTimer;
-        ResetViewClick mListener;
+        private final TextView succulentTimerView;
+        private CountDownTimer succulentTimer;
 
-        private SucculentViewHolder(View itemView, ResetViewClick listener) {
+        private SucculentViewHolder(View itemView) {
             super(itemView);
             succulentItemView = itemView.findViewById(R.id.recycler_textview_succulent_name);
             succulentImageView = itemView.findViewById(R.id.recycler_imageview_succulent_art);
             succulentResetView = itemView.findViewById(R.id.recycler_reset_timer);
-            mListener = listener;
-            succulentResetView.setOnClickListener(this);
-            succulentResetView.setTag(this);
-            succulentCountdownView = itemView.findViewById(R.id.recycler_textview_succulent_timeleft);
-        }
-
-        @Override
-        public void onClick(View view) {
-            SucculentViewHolder holder = (SucculentViewHolder) (view.getTag());
-            int pos = holder.getAdapterPosition();
-            Succulent editCurrent =  mSucculents.get(pos);
-            long newExpiryTime = System.currentTimeMillis() + 30 * 300;
-            editCurrent.setExpiryTime(newExpiryTime);
-            mListener.updateCountdown(holder, editCurrent);
+            succulentTimerView = itemView.findViewById(R.id.recycler_textview_succulent_timeleft);
+            succulentResetView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    clickListener.onItemClick(view, getAdapterPosition());
+                }
+            });
         }
     }
-    public interface ResetViewClick
-    {
-        void updateCountdown(SucculentViewHolder holder, Succulent succulent);
+
+    public void setOnItemClickListener(ClickListener clickListener) {
+        AddedSucculentAdapter.clickListener = clickListener;
+    }
+
+    public interface ClickListener {
+        void onItemClick(View v, int position);
     }
 }

@@ -13,7 +13,7 @@ import java.util.List;
 @Dao
 public interface SucculentDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insert(Succulent succulent);
+    long insert(Succulent succulent);
 
     @Query("DELETE FROM succulent_table")
     void deleteAll();
