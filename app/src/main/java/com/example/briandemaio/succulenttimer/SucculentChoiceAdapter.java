@@ -30,12 +30,12 @@ public class SucculentChoiceAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return succulents[position];
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
@@ -43,10 +43,8 @@ public class SucculentChoiceAdapter extends BaseAdapter {
 
         final Succulent succulent = succulents[position];
 
-        if (convertView == null) {
-            final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-            convertView = layoutInflater.inflate(R.layout.choice_view_item, null);
-        }
+        final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+        convertView = layoutInflater.inflate(R.layout.choice_view_item, null);
 
         final ImageView imageView = (ImageView)convertView.findViewById(R.id.succulent_image);
         final TextView nameTextView = (TextView)convertView.findViewById(R.id.succulent_name_text);
