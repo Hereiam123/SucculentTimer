@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ public class SucculentChoiceAdapter extends BaseAdapter {
 
     private final Context mContext;
     private final Succulent[] succulents;
+    private OnItemSelectedListener listener;
 
     public SucculentChoiceAdapter(Context context, Succulent[] succulents){
         this.mContext = context;
@@ -52,26 +54,30 @@ public class SucculentChoiceAdapter extends BaseAdapter {
         Glide.with(mContext).load(succulent.getImageResource()).into(imageView);
         nameTextView.setText(mContext.getString(succulent.getNameId()));
 
+        if (mContext instanceof OnItemSelectedListener) {
+            listener = (OnItemSelectedListener) mContext;
+        } else {
+            throw new ClassCastException(mContext.toString()
+                    + " must implement MyListFragment.OnItemSelectedListener");
+        }
+
         imageView.setOnClickListener(new ImageView.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                listener.onSucculentItemSelected(succulent.getImageResource());
                 Bundle bundle = new Bundle();
 
                 bundle.putInt("imageID", succulent.getImageResource());
 
-                Fragment nextFragment = new SucculentNameFragment();
-
-                nextFragment.setArguments(bundle);
-
-                android.support.v4.app.FragmentManager manager = ((FragmentActivity)mContext).getSupportFragmentManager();
-                android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
-                transaction.replace(R.id.succulent_choice_placeholder, nextFragment);
-                transaction.commit();
             }
         });
 
         return convertView;
+    }
+
+    public interface OnItemSelectedListener {
+        void onSucculentItemSelected(int imageId);
     }
 
 }
