@@ -96,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, ChoiceActivity.class);
                 startActivityForResult(intent, NEW_SUCCULENT_ACTIVITY_REQUEST_CODE);
-
             }
         });
 
