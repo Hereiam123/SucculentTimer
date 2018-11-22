@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="grid_column_count">2</integer>
-    <bool name="twoPaneMode">true</bool>
 </resources>
