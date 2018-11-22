@@ -20,18 +20,22 @@ import static com.example.briandemaio.succulenttimer.ChoiceActivity.EXTRA_REPLY;
 public class SucculentNameFragment extends Fragment {
 
     private EditText mEditWordView;
+    ImageView mSucculentImageView;
+    private int mImageId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        final Bundle bundle = getArguments();
+
         View view = inflater.inflate(R.layout.succulent_name_fragment, container, false);
-        ImageView succulentImageView = view.findViewById(R.id.succulentImageView);
+        mSucculentImageView = view.findViewById(R.id.succulentImageView);
         mEditWordView = view.findViewById(R.id.editText);
-        final Bundle bundle = this.getArguments();
 
         if(bundle != null){
-            Glide.with(getContext()).load(bundle.getInt("imageID")).into(succulentImageView);
+            mImageId = bundle.getInt("imageId");
+            Glide.with(getContext()).load(bundle.getInt("imageId")).into(mSucculentImageView);
         }
 
         final Button button = view.findViewById(R.id.button_save);
@@ -43,13 +47,20 @@ public class SucculentNameFragment extends Fragment {
                 } else {
                     String word = mEditWordView.getText().toString();
                     replyIntent.putExtra(EXTRA_REPLY, word);
-                    replyIntent.putExtra("imageID", bundle.getInt("imageID"));
+                    replyIntent.putExtra("imageID", mImageId);
                     getActivity().setResult(RESULT_OK, replyIntent);
                 }
                 getActivity().finish();
             }
         });
+
         setRetainInstance(true);
         return view;
+    }
+
+
+    public void setImage(int imageId){
+        mImageId = imageId;
+        Glide.with(getContext()).load(imageId).into(mSucculentImageView);
     }
 }
