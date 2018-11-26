@@ -25,7 +25,14 @@ import java.util.List;
 
 import static com.example.briandemaio.succulenttimer.ChoiceActivity.*;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+
+
 public class MainActivity extends AppCompatActivity {
+
+    private AdView mAdView;
 
     private SucculentViewModel mSucculentViewModel;
     public static final int NEW_SUCCULENT_ACTIVITY_REQUEST_CODE = 1;
@@ -109,6 +116,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
         createNotificationChannel();
+        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     @Override
