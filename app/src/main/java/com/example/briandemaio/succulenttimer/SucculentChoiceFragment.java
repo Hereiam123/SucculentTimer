@@ -2,12 +2,10 @@ package com.example.briandemaio.succulenttimer;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
-import android.widget.ImageView;
 
 public class SucculentChoiceFragment extends Fragment {
 
@@ -21,25 +19,30 @@ public class SucculentChoiceFragment extends Fragment {
             return view;
     }
 
+    //private String cacti = getResources().getString(R.string.cacti);
+    private String cacti = "Cacti";
+    //private String aloeVera = getResources().getString(R.string.aloe_vera);
+    private String aloeVera = "Aloe Vera";
+
     private Succulent[] succulents = {
-            new Succulent(R.string.cacti, R.drawable.succulent_1),
-            new Succulent(R.string.aloe_vera, R.drawable.succulent_2),
-            new Succulent(R.string.aloe_vera, R.drawable.succulent_3),
-            new Succulent(R.string.aloe_vera, R.drawable.succulent_4),
-            new Succulent(R.string.aloe_vera, R.drawable.succulent_5),
-            new Succulent(R.string.aloe_vera, R.drawable.succulent_6),
-            new Succulent(R.string.aloe_vera, R.drawable.succulent_7),
-            new Succulent(R.string.aloe_vera, R.drawable.succulent_8),
-            new Succulent(R.string.aloe_vera, R.drawable.succulent_9),
-            new Succulent(R.string.aloe_vera, R.drawable.succulent_10),
-            new Succulent(R.string.aloe_vera, R.drawable.succulent_11),
-            new Succulent(R.string.aloe_vera, R.drawable.succulent_12),
-            new Succulent(R.string.aloe_vera, R.drawable.succulent_13),
-            new Succulent(R.string.aloe_vera, R.drawable.succulent_14),
-            new Succulent(R.string.aloe_vera, R.drawable.succulent_15),
-            new Succulent(R.string.aloe_vera, R.drawable.succulent_16),
-            new Succulent(R.string.aloe_vera, R.drawable.succulent_17),
-            new Succulent(R.string.aloe_vera, R.drawable.succulent_18),
-            new Succulent(R.string.aloe_vera, R.drawable.succulent_19)
+            new Succulent(cacti, R.drawable.succulent_1),
+            new Succulent(aloeVera, R.drawable.succulent_2),
+            new Succulent(aloeVera, R.drawable.succulent_3),
+            new Succulent(aloeVera, R.drawable.succulent_4),
+            new Succulent(aloeVera, R.drawable.succulent_5),
+            new Succulent(aloeVera, R.drawable.succulent_6),
+            new Succulent(aloeVera, R.drawable.succulent_7),
+            new Succulent(aloeVera, R.drawable.succulent_8),
+            new Succulent(aloeVera, R.drawable.succulent_9),
+            new Succulent(aloeVera, R.drawable.succulent_10),
+            new Succulent(aloeVera, R.drawable.succulent_11),
+            new Succulent(aloeVera, R.drawable.succulent_12),
+            new Succulent(aloeVera, R.drawable.succulent_13),
+            new Succulent(aloeVera, R.drawable.succulent_14),
+            new Succulent(aloeVera, R.drawable.succulent_15),
+            new Succulent(aloeVera, R.drawable.succulent_16),
+            new Succulent(aloeVera, R.drawable.succulent_17),
+            new Succulent(aloeVera, R.drawable.succulent_18),
+            new Succulent(aloeVera, R.drawable.succulent_19)
     };
 }

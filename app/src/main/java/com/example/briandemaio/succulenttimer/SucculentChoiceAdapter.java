@@ -48,7 +48,7 @@ public class SucculentChoiceAdapter extends BaseAdapter {
         final TextView nameTextView = (TextView)convertView.findViewById(R.id.succulent_name_text);
 
         Glide.with(mContext).load(succulent.getImageResource()).into(imageView);
-        nameTextView.setText(mContext.getString(succulent.getNameId()));
+        nameTextView.setText(succulent.getName());
 
         if (mContext instanceof OnItemSelectedListener) {
             listener = (OnItemSelectedListener) mContext;
@@ -70,5 +70,4 @@ public class SucculentChoiceAdapter extends BaseAdapter {
     public interface OnItemSelectedListener {
         void onSucculentItemSelected(int imageId);
     }
-
 }

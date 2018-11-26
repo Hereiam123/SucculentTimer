@@ -1,9 +1,6 @@
 package com.example.briandemaio.succulenttimer;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,16 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
-
-import java.util.Calendar;
 import java.util.List;
 
 public class AddedSucculentAdapter extends RecyclerView.Adapter<AddedSucculentAdapter.SucculentViewHolder> {
 
     private final Context mContext;
-
     private final LayoutInflater mInflater;
     private List<Succulent> mSucculents;
     private static ClickListener clickListener;
@@ -29,7 +22,8 @@ public class AddedSucculentAdapter extends RecyclerView.Adapter<AddedSucculentAd
 
     AddedSucculentAdapter(Context context) {
         this.mContext = context;
-        mInflater = LayoutInflater.from(context); }
+        mInflater = LayoutInflater.from(context);
+    }
 
     @Override
     public SucculentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -57,6 +51,7 @@ public class AddedSucculentAdapter extends RecyclerView.Adapter<AddedSucculentAd
                     holder.succulentTimerView.setText("All Done");
                 }
             }.start();
+
             Glide.with(mContext).load(current.getImageResource()).into(holder.succulentImageView);
         } else {
             // Covers the case of data not being ready yet.
@@ -64,7 +59,7 @@ public class AddedSucculentAdapter extends RecyclerView.Adapter<AddedSucculentAd
         }
     }
 
-    public Succulent getSucculentAtPosition (int position) {
+    Succulent getSucculentAtPosition (int position) {
         return mSucculents.get(position);
     }
 
@@ -91,8 +86,8 @@ public class AddedSucculentAdapter extends RecyclerView.Adapter<AddedSucculentAd
             super(itemView);
             succulentItemView = itemView.findViewById(R.id.recycler_textview_succulent_name);
             succulentImageView = itemView.findViewById(R.id.recycler_imageview_succulent_art);
-            succulentResetView = itemView.findViewById(R.id.recycler_reset_timer);
             succulentTimerView = itemView.findViewById(R.id.recycler_textview_succulent_timeleft);
+            succulentResetView = itemView.findViewById(R.id.recycler_reset_timer);
             succulentResetView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -102,7 +97,7 @@ public class AddedSucculentAdapter extends RecyclerView.Adapter<AddedSucculentAd
         }
     }
 
-    public void setOnItemClickListener(ClickListener clickListener) {
+    void setOnItemClickListener(ClickListener clickListener) {
         AddedSucculentAdapter.clickListener = clickListener;
     }
 

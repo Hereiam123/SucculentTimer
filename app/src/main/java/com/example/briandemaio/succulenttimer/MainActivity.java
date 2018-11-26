@@ -6,16 +6,13 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -138,10 +135,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void setSucculentTimeAlarm(Succulent succulent) {
         Intent notifyIntent = new Intent(this, AlarmReceiver.class);
-        notifyIntent.putExtra(AlarmReceiver.NOTIFICATION_ID, succulent.getTimeId());
+        notifyIntent.putExtra(AlarmReceiver.NOTIFICATION_ID, succulent.getId());
         notifyIntent.putExtra(AlarmReceiver.NOTIFICATION, succulent.getName());
         PendingIntent notifyPendingIntent = PendingIntent.getBroadcast
-                (this, succulent.getTimeId(), notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                (this, succulent.getId(), notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP,
                 succulent.getExpiryTime(), notifyPendingIntent);
@@ -149,9 +146,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void cancelSucculentTimeAlarm(Succulent succulent) {
         Intent notifyIntent = new Intent(this, AlarmReceiver.class);
-        notifyIntent.putExtra(AlarmReceiver.NOTIFICATION_ID, succulent.getTimeId());
+        notifyIntent.putExtra(AlarmReceiver.NOTIFICATION_ID, succulent.getId());
         PendingIntent cancelPendingIntent= PendingIntent.getBroadcast
-                (this, succulent.getTimeId(), notifyIntent, 0);
+                (this, succulent.getId(), notifyIntent, 0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         cancelPendingIntent.cancel();
         alarmManager.cancel(cancelPendingIntent);

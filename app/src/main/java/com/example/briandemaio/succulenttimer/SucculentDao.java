@@ -15,9 +15,6 @@ public interface SucculentDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     long insert(Succulent succulent);
 
-    @Query("DELETE FROM succulent_table")
-    void deleteAll();
-
     @Update
     void update(Succulent... succulent);
 
