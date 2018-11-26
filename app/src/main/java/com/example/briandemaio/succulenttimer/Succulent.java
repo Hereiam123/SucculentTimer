@@ -39,15 +39,21 @@ public class Succulent {
         this.imageResource = imageResource;
     }
 
-    public int getId(){return id;}
+    public int getId() {
+        return id;
+    }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setExpiryTime(long expiryTime){this.expiryTime = expiryTime;}
+    public void setExpiryTime(long expiryTime) {
+        this.expiryTime = expiryTime;
+    }
 
-    public long getExpiryTime(){return expiryTime;}
+    public long getExpiryTime() {
+        return expiryTime;
+    }
 
     public String getName() {
         return name;
@@ -56,5 +62,4 @@ public class Succulent {
     public int getImageResource() {
         return imageResource;
     }
-
 }

@@ -20,7 +20,7 @@ import static com.example.briandemaio.succulenttimer.ChoiceActivity.EXTRA_REPLY;
 public class SucculentNameFragment extends Fragment {
 
     private EditText mEditWordView;
-    ImageView mSucculentImageView;
+    private ImageView mSucculentImageView;
     private int mImageId;
 
     @Override
@@ -35,7 +35,7 @@ public class SucculentNameFragment extends Fragment {
 
         if(bundle != null){
             mImageId = bundle.getInt("imageId");
-            Glide.with(getContext()).load(bundle.getInt("imageId")).into(mSucculentImageView);
+            setImage(mImageId);
         }
 
         final Button button = view.findViewById(R.id.button_save);
@@ -54,10 +54,8 @@ public class SucculentNameFragment extends Fragment {
             }
         });
 
-        setRetainInstance(true);
         return view;
     }
-
 
     public void setImage(int imageId){
         mImageId = imageId;
