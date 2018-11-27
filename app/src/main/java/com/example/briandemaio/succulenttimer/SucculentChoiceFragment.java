@@ -28,7 +28,6 @@ public class SucculentChoiceFragment extends Fragment {
                 new Succulent(aloeVera, R.drawable.succulent_6),
                 new Succulent(aloeVera, R.drawable.succulent_7),
                 new Succulent(aloeVera, R.drawable.succulent_8),
-                new Succulent(aloeVera, R.drawable.succulent_9),
                 new Succulent(aloeVera, R.drawable.succulent_10),
                 new Succulent(aloeVera, R.drawable.succulent_11),
                 new Succulent(aloeVera, R.drawable.succulent_12),
@@ -37,8 +36,7 @@ public class SucculentChoiceFragment extends Fragment {
                 new Succulent(aloeVera, R.drawable.succulent_15),
                 new Succulent(aloeVera, R.drawable.succulent_16),
                 new Succulent(aloeVera, R.drawable.succulent_17),
-                new Succulent(aloeVera, R.drawable.succulent_18),
-                new Succulent(aloeVera, R.drawable.succulent_19)
+                new Succulent(aloeVera, R.drawable.succulent_18)
         };
 
         SucculentChoiceAdapter succulentChoiceAdapter = new SucculentChoiceAdapter(getActivity(), succulents);
