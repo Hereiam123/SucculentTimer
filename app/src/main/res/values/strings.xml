@@ -11,6 +11,7 @@
         <item name="aloe_vera">Aloe Vera</item>
         <item name="snake_plant">Snake Plant</item>
         <item name="green_prince">Green Prince</item>
+        <item name="torch_plant">Torch Plant</item>
         <item name="crassula">Crassula</item>
         <item name="pincushion_cactus">Pincushion Cactus</item>
         <item name="falming_katy">Flaming Katy</item>
@@ -18,7 +19,7 @@
         <item name="jade_plant">Jade Plant</item>
         <item name="aeonium">Aeonium</item>
         <item name="echeveria">Echeveria</item>
-        <item name="torch_plant">Torch Plant</item>
+        <item name="plush_plant">Plush Plant</item>
         <item name="ball_cactus">Ball Cactus</item>
         <item name="candelabara_cactus">Candelabara Cactus</item>
     </string-array>

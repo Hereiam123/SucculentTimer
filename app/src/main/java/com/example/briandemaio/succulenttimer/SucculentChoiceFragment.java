@@ -32,7 +32,7 @@ public class SucculentChoiceFragment extends Fragment {
                 new Succulent(succlentTypes[12], R.drawable.succulent_13),
                 new Succulent(succlentTypes[13], R.drawable.succulent_14),
                 new Succulent(succlentTypes[13], R.drawable.succulent_15),
-                new Succulent(succlentTypes[13], R.drawable.succulent_15)
+                new Succulent(succlentTypes[14], R.drawable.succulent_19)
         };
 
         SucculentChoiceAdapter succulentChoiceAdapter = new SucculentChoiceAdapter(getActivity(), succulents);
