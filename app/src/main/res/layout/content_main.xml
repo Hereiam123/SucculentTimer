@@ -12,7 +12,6 @@
         android:id="@+id/main_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp"
         tools:listitem="@layout/added_view_item"
         />
 

@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         final AddedSucculentAdapter adapter = new AddedSucculentAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new GridLayoutManager(this, gridColumnCount));
+
         mSucculentViewModel = ViewModelProviders.of(this).get(SucculentViewModel.class);
         mSucculentViewModel.getAllSucculents().observe(this, new Observer<List<Succulent>>() {
             @Override
@@ -84,11 +85,12 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Deleting " +
                                 mySucculent.getName(), Toast.LENGTH_LONG).show();
 
-                        // Delete the succulent
-                        mSucculentViewModel.delete(mySucculent);
 
                         //Delete Alarm
                         cancelSucculentTimeAlarm(mySucculent);
+
+                        // Delete the succulent
+                        mSucculentViewModel.delete(mySucculent);
                     }
                 });
 
@@ -110,8 +112,8 @@ public class MainActivity extends AppCompatActivity {
                 Succulent succulent = adapter.getSucculentAtPosition(position);
                 long expiryTime = System.currentTimeMillis() + 30 * 300;
                 succulent.setExpiryTime(expiryTime);
-                mSucculentViewModel.update(succulent);
                 setSucculentTimeAlarm(succulent);
+                mSucculentViewModel.update(succulent);
             }
         });
 
@@ -126,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+        return false;
     }
 
     @Override
@@ -137,8 +139,11 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.reverse_order) {
             return true;
+        }
+        else if(id == R.id.original_order){
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -146,10 +151,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void setSucculentTimeAlarm(Succulent succulent) {
         Intent notifyIntent = new Intent(this, AlarmReceiver.class);
-        notifyIntent.putExtra(AlarmReceiver.NOTIFICATION_ID, succulent.getId());
+        int timeId = (int) succulent.getExpiryTime();
+        notifyIntent.putExtra(AlarmReceiver.NOTIFICATION_ID, timeId);
         notifyIntent.putExtra(AlarmReceiver.NOTIFICATION, succulent.getName());
         PendingIntent notifyPendingIntent = PendingIntent.getBroadcast
-                (this, succulent.getId(), notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                (this, timeId, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP,
                 succulent.getExpiryTime(), notifyPendingIntent);
@@ -157,9 +163,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void cancelSucculentTimeAlarm(Succulent succulent) {
         Intent notifyIntent = new Intent(this, AlarmReceiver.class);
-        notifyIntent.putExtra(AlarmReceiver.NOTIFICATION_ID, succulent.getId());
+        int timeId = (int) succulent.getExpiryTime();
+        notifyIntent.putExtra(AlarmReceiver.NOTIFICATION_ID, timeId);
         PendingIntent cancelPendingIntent= PendingIntent.getBroadcast
-                (this, succulent.getId(), notifyIntent, 0);
+                (this, timeId, notifyIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         cancelPendingIntent.cancel();
         alarmManager.cancel(cancelPendingIntent);
