@@ -1,8 +1,26 @@
 <resources>
     <string name="app_name">SucculentTimer</string>
-    <string name="action_settings">Settings</string>
-    <string name="cacti">Cacti</string>
-    <string name="aloe_vera">Aloe Vera</string>
     <string name="image_of_succulent_chosen">Image of Succulent Chosen</string>
     <string name="set_and_save_button_text">Set and Save</string>
+    <string name="reverse_order">Reverse Order</string>
+    <string name="original_order">A to Z</string>
+
+    <string-array
+        name="succulent_types_array">
+        <item name="sedaveria">Sedavaria</item>
+        <item name="aloe_vera">Aloe Vera</item>
+        <item name="snake_plant">Snake Plant</item>
+        <item name="green_prince">Green Prince</item>
+        <item name="torch_plant">Torch Plant</item>
+        <item name="crassula">Crassula</item>
+        <item name="pincushion_cactus">Pincushion Cactus</item>
+        <item name="falming_katy">Flaming Katy</item>
+        <item name="crown_of_thornes">Crown of Thorns</item>
+        <item name="jade_plant">Jade Plant</item>
+        <item name="aeonium">Aeonium</item>
+        <item name="echeveria">Echeveria</item>
+        <item name="plush_plant">Plush Plant</item>
+        <item name="ball_cactus">Ball Cactus</item>
+        <item name="candelabara_cactus">Candelabara Cactus</item>
+    </string-array>
 </resources>
