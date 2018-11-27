@@ -22,7 +22,8 @@
             android:id="@+id/recycler_imageview_succulent_art"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:contentDescription="@string/added_succulent_plant" />
     </FrameLayout>
 
     <LinearLayout
@@ -31,13 +32,14 @@
         android:orientation="vertical"
         android:layout_marginTop="8dp"
         android:layout_marginRight="8dp"
-        android:gravity="right">
+        android:gravity="end"
+        android:layout_marginEnd="8dp">
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/recycler_reset_timer"
             android:src="@drawable/ic_water_drop"
-            />
+            android:contentDescription="@string/button_to_water_plant" />
 
         <TextView
             android:id="@+id/recycler_textview_succulent_timeleft"

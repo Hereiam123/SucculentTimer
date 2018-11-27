@@ -4,6 +4,10 @@
     <string name="set_and_save_button_text">Set and Save</string>
     <string name="reverse_order">Reverse Order</string>
     <string name="original_order">A to Z</string>
+    <string name="added_succulent_plant">Added Succulent Plant</string>
+    <string name="button_to_water_plant">Button to water plant</string>
+    <string name="succulent_plant_chosen_for_adding">Succulent plant chosen for adding</string>
+    <string name="succulent_name_placeholder">Enter Succulent Name</string>
 
     <string-array
         name="succulent_types_array">

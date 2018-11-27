@@ -17,7 +17,8 @@
         app:layout_constraintDimensionRatio="H,1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/succulent_plant_chosen_for_adding" />
 
     <EditText
         android:id="@+id/editText"
@@ -29,11 +30,13 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:inputType="textCapWords"
+        android:hint="@string/succulent_name_placeholder"
         android:maxLines="1"
         android:maxLength="20"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/succulentImageView" />
+        app:layout_constraintTop_toBottomOf="@+id/succulentImageView"
+        android:importantForAutofill="no" />
 
     <Button
         android:id="@+id/button_save"
