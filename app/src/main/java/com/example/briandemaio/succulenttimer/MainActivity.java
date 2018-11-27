@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View v, int position) {
                 Succulent succulent = adapter.getSucculentAtPosition(position);
-                long expiryTime = System.currentTimeMillis() + 30 * 300;
+                long expiryTime = System.currentTimeMillis() + 604800000;
                 succulent.setExpiryTime(expiryTime);
                 setSucculentTimeAlarm(succulent);
                 mSucculentViewModel.update(succulent);
@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == NEW_SUCCULENT_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            long triggerTime = System.currentTimeMillis() + 30 * 300;
+            long triggerTime = System.currentTimeMillis() + 604800000;
             Succulent succulent = new Succulent(data.getStringExtra(EXTRA_REPLY), data.getIntExtra("imageID", 0), triggerTime);
             mSucculentViewModel.insert(succulent);
             setSucculentTimeAlarm(succulent);
