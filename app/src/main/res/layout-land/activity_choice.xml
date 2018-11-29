@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="match_parent"
-        class="com.example.briandemaio.succulenttimer.SucculentChoiceFragment"
+        class="com.briandemaio.succulenttimer.SucculentChoiceFragment"
         tools:layout="@layout/succulent_choice_fragment">
     </fragment>
 
@@ -21,7 +21,7 @@
         android:layout_width="0dp"
         android:layout_weight="2"
         android:layout_height="match_parent"
-        class="com.example.briandemaio.succulenttimer.SucculentNameFragment"
+        class="com.briandemaio.succulenttimer.SucculentNameFragment"
         tools:layout="@layout/succulent_name_fragment">
     </fragment>
 
