@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 Succulent mySucculent = adapter.getSucculentAtPosition(position);
                 Intent intent = new Intent(MainActivity.this, ChoiceActivity.class);
                 intent.putExtra("updateId", mySucculent.getId());
+                intent.putExtra("updateTime", mySucculent.getExpiryTime());
                 startActivityForResult(intent, UPDATE_SUCCULENT_ACTIVITY_REQUEST_CODE);
             }
         });
@@ -188,7 +189,10 @@ public class MainActivity extends AppCompatActivity {
             setSucculentTimeAlarm(succulent);
         }
         else if(requestCode == UPDATE_SUCCULENT_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
-
+            Succulent succulent = new Succulent(data.getStringExtra(EXTRA_REPLY), data.getIntExtra("imageID", 0));
+            succulent.setId(data.getIntExtra("updateId",0));
+            succulent.setExpiryTime(data.getLongExtra("updateTime", 0));
+            mSucculentViewModel.update(succulent);
         }
         else {
             Toast.makeText(

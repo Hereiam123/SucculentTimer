@@ -13,11 +13,19 @@ public class ChoiceActivity extends AppCompatActivity implements
     public static final String EXTRA_REPLY =
             "com.briandemaio.succulenttimer.REPLY";
 
+    private int mUpdateId;
+    private long mUpdateTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choice);
         FragmentManager manager = getSupportFragmentManager();
+
+        Intent intent = getIntent();
+
+        mUpdateId = intent.getIntExtra("updateId",0);
+        mUpdateTime = intent.getLongExtra("updateTime", 0);
 
         if (getResources().getBoolean(R.bool.twoPaneMode)) {
             // all good, we use the fragments defined in the layout
@@ -68,6 +76,10 @@ public class ChoiceActivity extends AppCompatActivity implements
         Intent replyIntent = new Intent();
         replyIntent.putExtra(EXTRA_REPLY, succulent);
         replyIntent.putExtra("imageID", imageId);
+        if(mUpdateId != 0){
+            replyIntent.putExtra("updateId", mUpdateId);
+            replyIntent.putExtra("updateTime", mUpdateTime);
+        }
         setResult(RESULT_OK, replyIntent);
         finish();
     }
