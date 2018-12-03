@@ -65,36 +65,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Add the functionality to swipe items in the
-        // recycler view to delete that item
-        ItemTouchHelper helper = new ItemTouchHelper(
-                new ItemTouchHelper.SimpleCallback(0,
-                        ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-                    @Override
-                    public boolean onMove(RecyclerView recyclerView,
-                                          RecyclerView.ViewHolder viewHolder,
-                                          RecyclerView.ViewHolder target) {
-                        return false;
-                    }
+        SwipeController swipeController = new SwipeController(new SwipeControllerActions() {
+            @Override
+            public void onRightClicked(int position) {
+                Succulent mySucculent = adapter.getSucculentAtPosition(position);
+                Toast.makeText(MainActivity.this, "Deleting " +
+                        mySucculent.getName(), Toast.LENGTH_LONG).show();
 
-                    @Override
-                    public void onSwiped(RecyclerView.ViewHolder viewHolder,
-                                         int direction) {
-                        int position = viewHolder.getAdapterPosition();
-                        Succulent mySucculent = adapter.getSucculentAtPosition(position);
-                        Toast.makeText(MainActivity.this, "Deleting " +
-                                mySucculent.getName(), Toast.LENGTH_LONG).show();
+                //Delete Alarm
+                cancelSucculentTimeAlarm(mySucculent);
 
+                // Delete the succulent
+                mSucculentViewModel.delete(mySucculent);
 
-                        //Delete Alarm
-                        cancelSucculentTimeAlarm(mySucculent);
+                adapter.notifyItemRemoved(position);
+                adapter.notifyItemRangeChanged(position, adapter.getItemCount());
+            }
+        });
 
-                        // Delete the succulent
-                        mSucculentViewModel.delete(mySucculent);
-                    }
-                });
-
-        helper.attachToRecyclerView(recyclerView);
+        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
+        itemTouchhelper.attachToRecyclerView(recyclerView);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
