@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private AdView mAdView;
 
     private SucculentViewModel mSucculentViewModel;
+    private SwipeController mSwipeController;
     public static final int NEW_SUCCULENT_ACTIVITY_REQUEST_CODE = 1;
 
     // Notification channel ID.
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        SwipeController swipeController = new SwipeController(new SwipeControllerActions() {
+        mSwipeController = new SwipeController(new SwipeControllerActions() {
             @Override
             public void onRightClicked(int position) {
                 Succulent mySucculent = adapter.getSucculentAtPosition(position);
@@ -83,8 +85,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
+        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(mSwipeController);
         itemTouchhelper.attachToRecyclerView(recyclerView);
+
+        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+                mSwipeController.onDraw(c);
+            }
+        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
