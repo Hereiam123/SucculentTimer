@@ -105,9 +105,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         adapter.setOnItemClickListener(new AddedSucculentAdapter.ClickListener()  {
-
             @Override
-            public void onItemClick(View v, int position) {
+            public void onWaterItemClick(View v, int position) {
                 Succulent succulent = adapter.getSucculentAtPosition(position);
                 long expiryTime = System.currentTimeMillis() + 604800000;
                 succulent.setExpiryTime(expiryTime);

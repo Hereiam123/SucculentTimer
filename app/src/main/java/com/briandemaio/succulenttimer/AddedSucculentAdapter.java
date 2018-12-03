@@ -103,7 +103,7 @@ public class AddedSucculentAdapter extends RecyclerView.Adapter<AddedSucculentAd
             succulentResetView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    clickListener.onItemClick(view, getAdapterPosition());
+                    clickListener.onWaterItemClick(view, getAdapterPosition());
                 }
             });
         }
@@ -114,6 +114,6 @@ public class AddedSucculentAdapter extends RecyclerView.Adapter<AddedSucculentAd
     }
 
     public interface ClickListener {
-        void onItemClick(View v, int position);
+        void onWaterItemClick(View v, int position);
     }
 }
