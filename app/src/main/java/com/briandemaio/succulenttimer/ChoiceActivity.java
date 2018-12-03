@@ -3,6 +3,8 @@ package com.briandemaio.succulenttimer;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 
 public class ChoiceActivity extends AppCompatActivity implements
@@ -11,11 +13,19 @@ public class ChoiceActivity extends AppCompatActivity implements
     public static final String EXTRA_REPLY =
             "com.briandemaio.succulenttimer.REPLY";
 
+    private int mUpdateId;
+    private long mUpdateTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choice);
-        android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+        FragmentManager manager = getSupportFragmentManager();
+
+        Intent intent = getIntent();
+
+        mUpdateId = intent.getIntExtra("updateId",0);
+        mUpdateTime = intent.getLongExtra("updateTime", 0);
 
         if (getResources().getBoolean(R.bool.twoPaneMode)) {
             // all good, we use the fragments defined in the layout
@@ -50,7 +60,7 @@ public class ChoiceActivity extends AppCompatActivity implements
             SucculentNameFragment newFragment = new SucculentNameFragment();
             args.putInt("imageId", imageId);
             newFragment.setArguments(args);
-            android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
             // Replace whatever is in the fragment_container view with this fragment,
             // and add the transaction to the back stack so the user can navigate back
@@ -66,6 +76,10 @@ public class ChoiceActivity extends AppCompatActivity implements
         Intent replyIntent = new Intent();
         replyIntent.putExtra(EXTRA_REPLY, succulent);
         replyIntent.putExtra("imageID", imageId);
+        if(mUpdateId != 0){
+            replyIntent.putExtra("updateId", mUpdateId);
+            replyIntent.putExtra("updateTime", mUpdateTime);
+        }
         setResult(RESULT_OK, replyIntent);
         finish();
     }
