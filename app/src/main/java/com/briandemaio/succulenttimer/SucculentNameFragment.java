@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -39,14 +40,13 @@ public class SucculentNameFragment extends Fragment {
         final Button button = view.findViewById(R.id.button_save);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-
                 String succulent = mEditNameView.getText().toString();
-
                 if (TextUtils.isEmpty(mEditNameView.getText())) {
-                    succulent = "You forgot a name dummy!";
+                    Toast.makeText(getActivity(), "You forgot to add a name!", Toast.LENGTH_LONG ).show();
                 }
-
-                mListener.onSetSave(succulent, mImageId);
+                else {
+                    mListener.onSetSave(succulent, mImageId);
+                }
             }
         });
 
