@@ -3,6 +3,8 @@ package com.briandemaio.succulenttimer;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 
 public class ChoiceActivity extends AppCompatActivity implements
@@ -15,7 +17,7 @@ public class ChoiceActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choice);
-        android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+        FragmentManager manager = getSupportFragmentManager();
 
         if (getResources().getBoolean(R.bool.twoPaneMode)) {
             // all good, we use the fragments defined in the layout
@@ -50,7 +52,7 @@ public class ChoiceActivity extends AppCompatActivity implements
             SucculentNameFragment newFragment = new SucculentNameFragment();
             args.putInt("imageId", imageId);
             newFragment.setArguments(args);
-            android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
             // Replace whatever is in the fragment_container view with this fragment,
             // and add the transaction to the back stack so the user can navigate back

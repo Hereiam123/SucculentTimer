@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private SucculentViewModel mSucculentViewModel;
     private SwipeController mSwipeController;
     public static final int NEW_SUCCULENT_ACTIVITY_REQUEST_CODE = 1;
+    public static final int UPDATE_SUCCULENT_ACTIVITY_REQUEST_CODE = 2;
 
     // Notification channel ID.
     private static final String PRIMARY_CHANNEL_ID =
@@ -82,6 +83,14 @@ public class MainActivity extends AppCompatActivity {
 
                 adapter.notifyItemRemoved(position);
                 adapter.notifyItemRangeChanged(position, adapter.getItemCount());
+            }
+
+            @Override
+            public void onLeftClicked(int position){
+                Succulent mySucculent = adapter.getSucculentAtPosition(position);
+                Intent intent = new Intent(MainActivity.this, ChoiceActivity.class);
+                intent.putExtra("updateId", mySucculent.getId());
+                startActivityForResult(intent, UPDATE_SUCCULENT_ACTIVITY_REQUEST_CODE);
             }
         });
 
@@ -177,7 +186,11 @@ public class MainActivity extends AppCompatActivity {
             Succulent succulent = new Succulent(data.getStringExtra(EXTRA_REPLY), data.getIntExtra("imageID", 0), triggerTime);
             mSucculentViewModel.insert(succulent);
             setSucculentTimeAlarm(succulent);
-        } else {
+        }
+        else if(requestCode == UPDATE_SUCCULENT_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
+
+        }
+        else {
             Toast.makeText(
                     getApplicationContext(),
                     "Not Saved",
