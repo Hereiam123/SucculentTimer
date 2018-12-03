@@ -1,10 +1,12 @@
 package com.briandemaio.succulenttimer;
+
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 public class ChoiceActivity extends AppCompatActivity implements
-        SucculentChoiceAdapter.OnItemSelectedListener{
+        SucculentChoiceAdapter.OnItemSelectedListener, SucculentNameFragment.OnSucculentNameFragmentInteractionListener{
 
     public static final String EXTRA_REPLY =
             "com.briandemaio.succulenttimer.REPLY";
@@ -57,6 +59,15 @@ public class ChoiceActivity extends AppCompatActivity implements
             // Commit the transaction
             transaction.commit();
         }
+    }
+
+    @Override
+    public void onSetSave(String succulent, int imageId) {
+        Intent replyIntent = new Intent();
+        replyIntent.putExtra(EXTRA_REPLY, succulent);
+        replyIntent.putExtra("imageID", imageId);
+        setResult(RESULT_OK, replyIntent);
+        finish();
     }
 }
 
