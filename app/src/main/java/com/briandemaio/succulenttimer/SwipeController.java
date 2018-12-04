@@ -27,7 +27,7 @@ class SwipeController extends Callback {
 
     private RecyclerView.ViewHolder currentItemViewHolder = null;
 
-    private SwipeControllerActions buttonsActions = null;
+    private SwipeControllerActions buttonsActions;
 
     private static final float buttonWidth = 300;
 
