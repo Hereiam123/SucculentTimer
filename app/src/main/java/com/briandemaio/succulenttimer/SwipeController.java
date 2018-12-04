@@ -73,7 +73,7 @@ class SwipeController extends Callback {
         }
 
         if (buttonShowedState == ButtonsState.GONE) {
-            if(dX<=400F && dX>=-400F) {
+            if(dX<=350F && dX>=-350F) {
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             }
         }
