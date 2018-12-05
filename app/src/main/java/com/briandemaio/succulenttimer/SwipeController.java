@@ -27,7 +27,7 @@ class SwipeController extends Callback {
 
     private RecyclerView.ViewHolder currentItemViewHolder = null;
 
-    private SwipeControllerActions buttonsActions = null;
+    private SwipeControllerActions buttonsActions;
 
     private static final float buttonWidth = 300;
 
@@ -73,7 +73,9 @@ class SwipeController extends Callback {
         }
 
         if (buttonShowedState == ButtonsState.GONE) {
-            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+            if(dX<=350F && dX>=-350F) {
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+            }
         }
         currentItemViewHolder = viewHolder;
     }
