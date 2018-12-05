@@ -60,7 +60,7 @@ public class AddedSucculentAdapter extends RecyclerView.Adapter<AddedSucculentAd
 
                 @Override
                 public void onFinish() {
-                    holder.succulentTimerView.setText("All Done");
+                    holder.succulentTimerView.setText("Time to Water!");
                 }
             }.start();
 
