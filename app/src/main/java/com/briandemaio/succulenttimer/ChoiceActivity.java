@@ -21,7 +21,6 @@ public class ChoiceActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choice);
         FragmentManager manager = getSupportFragmentManager();
-
         Intent intent = getIntent();
 
         mUpdateId = intent.getIntExtra("updateId",0);
@@ -83,6 +82,7 @@ public class ChoiceActivity extends AppCompatActivity implements
         setResult(RESULT_OK, replyIntent);
         finish();
     }
+
 }
 
 
