@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         createNotificationChannel();
-        MobileAds.initialize(this, "ca-app-pub-2580444339985264~6754205376");
+        MobileAds.initialize(this, "ca-app-pub-2580444339985264~7777983759");
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
