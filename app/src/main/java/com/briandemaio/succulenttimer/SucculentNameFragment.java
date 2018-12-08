@@ -32,10 +32,13 @@ public class SucculentNameFragment extends Fragment {
         mSucculentImageView = view.findViewById(R.id.succulentImageView);
         mEditNameView = view.findViewById(R.id.editText);
 
+        mImageId = getResources().getIdentifier("succulent_1", "drawable", getContext().getPackageName());
+
         if(bundle != null){
             mImageId = bundle.getInt("imageId");
-            setImage(mImageId);
         }
+
+        setImage(mImageId);
 
         final Button button = view.findViewById(R.id.button_save);
         button.setOnClickListener(new View.OnClickListener() {
