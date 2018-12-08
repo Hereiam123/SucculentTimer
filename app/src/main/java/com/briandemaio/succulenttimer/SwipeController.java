@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper.Callback;
 import android.view.MotionEvent;
@@ -28,8 +29,6 @@ class SwipeController extends Callback {
     private RecyclerView.ViewHolder currentItemViewHolder = null;
 
     private SwipeControllerActions buttonsActions;
-
-    private static final float buttonWidth = 300;
 
     public SwipeController(SwipeControllerActions buttonsActions) {
         this.buttonsActions = buttonsActions;
@@ -79,6 +78,7 @@ class SwipeController extends Callback {
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             }
         }
+        ViewCompat.setElevation(viewHolder.itemView, 100F);
         currentItemViewHolder = viewHolder;
     }
 
