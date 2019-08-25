@@ -2,10 +2,11 @@ package com.briandemaio.succulenttimer;
 
 import android.content.Context;
 import android.os.CountDownTimer;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -92,6 +93,7 @@ public class AddedSucculentAdapter extends RecyclerView.Adapter<AddedSucculentAd
         private final ImageView succulentImageView;
         private final ImageButton succulentResetView;
         private final TextView succulentTimerView;
+        private final Button succulentEditTimerView;
         private CountDownTimer succulentTimer;
 
         private SucculentViewHolder(View itemView) {
@@ -100,10 +102,19 @@ public class AddedSucculentAdapter extends RecyclerView.Adapter<AddedSucculentAd
             succulentImageView = itemView.findViewById(R.id.recycler_imageview_succulent_art);
             succulentTimerView = itemView.findViewById(R.id.recycler_textview_succulent_timeleft);
             succulentResetView = itemView.findViewById(R.id.recycler_reset_timer);
+            succulentEditTimerView = itemView.findViewById(R.id.recycler_edit_timer);
+
             succulentResetView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     clickListener.onWaterItemClick(view, getAdapterPosition());
+                }
+            });
+
+            succulentEditTimerView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    clickListener.onEditTimeClick(view, getAdapterPosition());
                 }
             });
         }
@@ -115,5 +126,6 @@ public class AddedSucculentAdapter extends RecyclerView.Adapter<AddedSucculentAd
 
     public interface ClickListener {
         void onWaterItemClick(View v, int position);
+        void onEditTimeClick(View v, int position);
     }
 }

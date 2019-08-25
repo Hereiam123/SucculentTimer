@@ -1,27 +1,36 @@
 package com.briandemaio.succulenttimer;
 
 import android.app.AlarmManager;
+import android.app.DatePickerDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.helper.ItemTouchHelper;
+import androidx.annotation.Nullable;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static com.briandemaio.succulenttimer.ChoiceActivity.*;
@@ -29,6 +38,7 @@ import static com.briandemaio.succulenttimer.ChoiceActivity.*;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -39,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private SwipeController mSwipeController;
     public static final int NEW_SUCCULENT_ACTIVITY_REQUEST_CODE = 1;
     public static final int UPDATE_SUCCULENT_ACTIVITY_REQUEST_CODE = 2;
-
+    private FirebaseAnalytics mFirebaseAnalytics;
     // Notification channel ID.
     private static final String PRIMARY_CHANNEL_ID =
             "primary_notification_channel";
@@ -53,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
 
         int gridColumnCount =
                 getResources().getInteger(R.integer.grid_column_count);
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         RecyclerView recyclerView = findViewById(R.id.main_view);
         final AddedSucculentAdapter adapter = new AddedSucculentAdapter(this);
@@ -122,6 +134,55 @@ public class MainActivity extends AppCompatActivity {
                 succulent.setExpiryTime(expiryTime);
                 setSucculentTimeAlarm(succulent);
                 mSucculentViewModel.update(succulent);
+            }
+
+            @Override
+            public void onEditTimeClick(final View v, final int position) {
+
+                // Get Current Time
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR);
+                int mMonth = c.get(Calendar.MONTH);
+                int mDay = c.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+                        //Get set expiration year, month and date for future use
+                        final int expirYear = year;
+                        final int expirMonth = month + 1;
+                        final int expirDay= dayOfMonth;
+
+                        //get current hour of day and minute
+                        int mHour = c.get(Calendar.HOUR_OF_DAY);
+                        int mMinute = c.get(Calendar.MINUTE);
+
+                        // Launch Time Picker Dialog
+                        TimePickerDialog timePickerDialog = new TimePickerDialog(v.getContext(),
+                                new TimePickerDialog.OnTimeSetListener() {
+                                    @Override
+                                    public void onTimeSet(TimePicker view, int hourOfDay,
+                                                          int minute) {
+                                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                                        Date date = null;
+                                        try {
+                                            date = sdf.parse(expirYear+"/"+expirMonth+"/"+expirDay+" "+hourOfDay+":"+minute+":00");
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        Succulent succulent = adapter.getSucculentAtPosition(position);
+                                        long expiryTime = date.getTime();
+                                        succulent.setExpiryTime(expiryTime);
+                                        setSucculentTimeAlarm(succulent);
+                                        mSucculentViewModel.update(succulent);
+                                    }
+                                }, mHour, mMinute, false);
+                        timePickerDialog.show();
+                    }
+                }, mYear, mMonth, mDay);
+                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+                datePickerDialog.show();
             }
         });
 
