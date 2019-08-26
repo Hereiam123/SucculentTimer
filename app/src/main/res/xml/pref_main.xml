@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory>
+        <com.briandemaio.succulenttimer.NumberPickerPreference
+            android:defaultValue="3"
+            android:key="@string/keys_num_1"
+            android:title="Default Succulent Reminder Time Length (hrs)" />
+    </PreferenceCategory>
+</PreferenceScreen>
