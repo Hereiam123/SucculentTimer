@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -20,6 +21,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.ItemTouchHelper;
+
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -50,6 +53,10 @@ public class MainActivity extends AppCompatActivity {
     public static final int NEW_SUCCULENT_ACTIVITY_REQUEST_CODE = 1;
     public static final int UPDATE_SUCCULENT_ACTIVITY_REQUEST_CODE = 2;
     private FirebaseAnalytics mFirebaseAnalytics;
+    private SharedPreferences mPreferences;
+    private long mDefaultTime;
+
+
     // Notification channel ID.
     private static final String PRIMARY_CHANNEL_ID =
             "primary_notification_channel";
@@ -65,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
                 getResources().getInteger(R.integer.grid_column_count);
         // Obtain the FirebaseAnalytics instance.
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        mDefaultTime = mPreferences.getInt("num_1", 3);
 
         RecyclerView recyclerView = findViewById(R.id.main_view);
         final AddedSucculentAdapter adapter = new AddedSucculentAdapter(this);
@@ -130,7 +140,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onWaterItemClick(View v, int position) {
                 Succulent succulent = adapter.getSucculentAtPosition(position);
-                long expiryTime = System.currentTimeMillis() + 604800000;
+                mDefaultTime = mPreferences.getInt("num_1", 3);
+                long expiryTime = System.currentTimeMillis() + (mDefaultTime * 3600000);
                 succulent.setExpiryTime(expiryTime);
                 setSucculentTimeAlarm(succulent);
                 mSucculentViewModel.update(succulent);
@@ -197,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        return false;
+        return true;
     }
 
     @Override
@@ -208,11 +219,9 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.reverse_order) {
+        if (id == R.id.action_settings) {
+            startActivity(new Intent(MainActivity.this, SettingsPrefActivity.class));
             return true;
-        }
-        else if(id == R.id.original_order){
-
         }
 
         return super.onOptionsItemSelected(item);
@@ -243,8 +252,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        mDefaultTime = mPreferences.getInt("num_1", 3);
         if (requestCode == NEW_SUCCULENT_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            long triggerTime = System.currentTimeMillis() + 604800000;
+            long triggerTime = System.currentTimeMillis() + mDefaultTime*3600000;
             Succulent succulent = new Succulent(data.getStringExtra(EXTRA_REPLY), data.getIntExtra("imageID", 0), triggerTime);
             mSucculentViewModel.insert(succulent);
             setSucculentTimeAlarm(succulent);

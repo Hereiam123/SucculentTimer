@@ -31,6 +31,13 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".SettingsPrefActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".ChoiceActivity"
             android:parentActivityName=".MainActivity"></activity>
         <receiver
